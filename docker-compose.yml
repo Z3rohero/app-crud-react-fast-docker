@@ -25,9 +25,11 @@ services:
     build: ./nginx
     ports: 
       - 80:80
-    link:
+    depends_on:
       - backend
     restart: always
+
+  
 
 volumes:
   pgdata:
