@@ -12,7 +12,6 @@ services:
       - pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-
   backend:
     build: .
     restart: always
@@ -22,6 +21,13 @@ services:
       - "8000:8000"
     environment:
       DATABASE_URL: postgresql://root:toor@db/prueba
+  nginx:
+    build: ./nginx
+    ports: 
+      - 80:80
+    link:
+      - backend
+    restart: always
 
 volumes:
   pgdata:
