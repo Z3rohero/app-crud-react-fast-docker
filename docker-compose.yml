@@ -21,7 +21,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      DATABASE_URL: postgres://root:toor@db/prueba
+      DATABASE_URL: postgresql://root:toor@db/prueba
 
 volumes:
   pgdata:
