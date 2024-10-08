@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Form, Table } from 'react-bootstrap';
+import { Button, Form, Table, Alert } from 'react-bootstrap';
 
-export const Tarea = () =>{
+export const Tarea = () => {
   const [tareas, setTareas] = useState([]);
   const [titulo, setTitulo] = useState('');
   const [descripcion, setDescripcion] = useState('');
-  const [estado, setEstado] = useState('Pendiente');
+  const [estado, setEstado] = useState(false); 
   const [editando, setEditando] = useState(false);
   const [idEditando, setIdEditando] = useState(null);
+  const [error, setError] = useState('');
 
-  const endpoint = '/api/task';
-
-  // Obtener tareas al cargar la página
+  const endpoint = 'http://localhost:8000/task'; 
   useEffect(() => {
     const obtenerTareas = async () => {
       try {
@@ -20,13 +19,12 @@ export const Tarea = () =>{
         setTareas(data);
       } catch (error) {
         console.error('Error al obtener tareas:', error);
+        setError('Error al obtener las tareas');
       }
     };
     obtenerTareas();
   }, []);
 
-  /*
-  // Agregar nueva tarea
   const agregarTarea = async () => {
     if (titulo && descripcion) {
       const nuevaTarea = { titulo, descripcion, estado };
@@ -42,7 +40,10 @@ export const Tarea = () =>{
         resetFormulario();
       } catch (error) {
         console.error('Error al agregar tarea:', error);
+        setError('Error al agregar la tarea');
       }
+    } else {
+      setError('Debe llenar todos los campos');
     }
   };
 
@@ -54,10 +55,10 @@ export const Tarea = () =>{
       setTareas(nuevasTareas);
     } catch (error) {
       console.error('Error al eliminar tarea:', error);
+      setError('Error al eliminar la tarea');
     }
   };
 
-  // Editar tarea
   const editarTarea = (tarea) => {
     setEditando(true);
     setTitulo(tarea.titulo);
@@ -66,7 +67,6 @@ export const Tarea = () =>{
     setIdEditando(tarea.id);
   };
 
-  // Actualizar tarea
   const actualizarTarea = async () => {
     const tareaActualizada = { titulo, descripcion, estado };
     try {
@@ -79,10 +79,11 @@ export const Tarea = () =>{
       const nuevasTareas = tareas.map((tarea) =>
         tarea.id === idEditando ? data : tarea
       );
-      setTareas(nuevasTareas); // Actualizar el estado con la tarea modificada
+      setTareas(nuevasTareas); 
       resetFormulario();
     } catch (error) {
       console.error('Error al actualizar tarea:', error);
+      setError('Error al actualizar la tarea');
     }
   };
 
@@ -90,13 +91,17 @@ export const Tarea = () =>{
   const resetFormulario = () => {
     setTitulo('');
     setDescripcion('');
-    setEstado('Pendiente');
+    setEstado(false);
     setEditando(false);
     setIdEditando(null);
+    setError('');
   };
-*/
+
   return (
     <div className="container">
+      <h2 className="mt-4">Gestión de Tareas</h2>
+
+      {error && <Alert variant="danger">{error}</Alert>}
 
       <Form className="mt-4">
         <Form.Group className="mb-3">
@@ -122,7 +127,7 @@ export const Tarea = () =>{
 
         <Form.Group className="mb-3">
           <Form.Label>Estado</Form.Label>
-          <Form.Select value={estado} onChange={(e) => setEstado(e.target.value)}>
+          <Form.Select value={estado} onChange={(e) => setEstado(e.target.value === 'true')}>
             <option value="false">Pendiente</option>
             <option value="true">Completada</option>
           </Form.Select>
@@ -152,7 +157,7 @@ export const Tarea = () =>{
               <td>{index + 1}</td>
               <td>{tarea.titulo}</td>
               <td>{tarea.descripcion}</td>
-              <td>{tarea.estado}</td>
+              <td>{tarea.estado ? 'Completada' : 'Pendiente'}</td>
               <td>
                 <Button
                   variant="warning"
@@ -171,6 +176,4 @@ export const Tarea = () =>{
       </Table>
     </div>
   );
-}
-
-
+};
