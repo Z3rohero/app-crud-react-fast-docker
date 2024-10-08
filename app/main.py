@@ -41,8 +41,8 @@ Base.metadata.create_all(bind=engine)
 
 # Esquema de entrada para la creación de tareas
 class TaskCreate(BaseModel):
-    titulo: Optional[str] = Field(None, min_length=10, max_length=500)
-    descripcion: Optional[str] = Field(None, min_length=10, max_length=500)
+    titulo: Optional[str] = Field(None, min_length=1, max_length=500)
+    descripcion: Optional[str] = Field(None, min_length=1, max_length=500)
     estado: Optional[bool] = Field(None)
 
 # Esquema de salida para las tareas

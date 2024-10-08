@@ -13,9 +13,11 @@ export const Tarea = () => {
   const endpoint = 'http://localhost:8000/task'; 
   useEffect(() => {
     const obtenerTareas = async () => {
+
       try {
         const response = await fetch(endpoint);
         const data = await response.json();
+        console.log("esta es la ", data)
         setTareas(data);
       } catch (error) {
         console.error('Error al obtener tareas:', error);
@@ -27,7 +29,10 @@ export const Tarea = () => {
 
   const agregarTarea = async () => {
     if (titulo && descripcion) {
-      const nuevaTarea = { titulo, descripcion, estado };
+       
+        const nuevaTarea = { titulo, descripcion, estado };
+
+      console.warn(`esta es la tarea ${titulo}, ${descripcion} ${estado} ,,,, ${nuevaTarea}`);
 
       try {
         const response = await fetch(endpoint, {
