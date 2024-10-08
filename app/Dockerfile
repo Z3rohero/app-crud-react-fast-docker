@@ -6,7 +6,7 @@ FROM python:3.10-slim
 WORKDIR /app
 
 # Copiar el archivo de requisitos al contenedor
-COPY ../requirements.txt .
+COPY requirements.txt  .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
