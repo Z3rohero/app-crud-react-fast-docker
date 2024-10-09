@@ -1,12 +1,12 @@
-  nginx:
-    build: ./nginx
-    ports:
-      - "80:80"
-    depends_on:
-      - backend
-      - frontend
-    restart: always
+Para levantar los contenedores, por favor, escribe el siguiente comando:
+Para Linux:
+sudo docker-compose up --build
+//////////////////
+Rutas:
+Frontend: localhost:5173
+Backend: localhost:8000
 
-
-    //Creacion de la database
-    sudo docker exec -it some-postgres psql -U root
+//////////////////////
+Para ver la documentación de los endpoints que fueron utilizados, por favor, dirígete a la siguiente ruta:
+localhost:8000/docs
+//////////////////
